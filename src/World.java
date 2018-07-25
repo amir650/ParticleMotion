@@ -11,14 +11,14 @@ public class World extends JPanel {
     private final AtomicInteger worldAge;
     private final RandomWalker walker;
 
-    static final int WIDTH = 480;
-    static final int HEIGHT = 320;
+    static final int WIDTH = 800;
+    static final int HEIGHT = 600;
 
     World() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setBackground(Color.BLACK);
         this.worldAge = new AtomicInteger(0);
-        this.walker = new RandomWalker(this, true);
+        this.walker = new RandomWalker(this);
     }
 
     AtomicInteger getWorldAge() {
@@ -28,14 +28,10 @@ public class World extends JPanel {
     void update() {
         this.walker.step();
         this.worldAge.incrementAndGet();
-        if(this.walker.showTracks()) {
-            repaint(this.walker.getCurrentLocation().getX(),
-                    this.walker.getCurrentLocation().getY(),
-                    this.walker.getSize(),
-                    this.walker.getSize());
-        } else {
-            repaint();
-        }
+        repaint(this.walker.getCurrentLocation().getX(),
+                this.walker.getCurrentLocation().getY(),
+                this.walker.getSize(),
+                this.walker.getSize());
     }
 
     @Override

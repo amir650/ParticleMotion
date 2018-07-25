@@ -1,9 +1,10 @@
-public class Location {
+public class CartesianPoint {
 
     private int x;
     private int y;
 
-    Location(int x, int y) {
+    CartesianPoint(final int x,
+                   final int y) {
         this.x = x;
         this.y = y;
     }

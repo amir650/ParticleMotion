@@ -3,17 +3,14 @@ import java.util.Random;
 class RandomWalker {
 
     private final int size;
-    private final Location currentLocation;
-    private final boolean showTracks;
+    private final CartesianPoint currentLocation;
     private final World gameWorld;
 
     private static final Random R = new Random(1000);
 
-    RandomWalker(final World gameWorld,
-                 final boolean showTracks) {
-        this.currentLocation = new Location(World.WIDTH /2, World.HEIGHT /2);
-        this.size = 10;
-        this.showTracks = showTracks;
+    RandomWalker(final World gameWorld) {
+        this.currentLocation = new CartesianPoint(World.WIDTH /2, World.HEIGHT /2);
+        this.size = 1;
         this.gameWorld = gameWorld;
     }
 
@@ -21,17 +18,13 @@ class RandomWalker {
         return this.size;
     }
 
-    Location getCurrentLocation() {
+    CartesianPoint getCurrentLocation() {
         return this.currentLocation;
     }
 
-    boolean showTracks() {
-        return this.showTracks;
-    }
-
     void step() {
-        final Location lastStep = this.currentLocation;
-        final Location nextStep = new Location(lastStep.getX(), lastStep.getY());
+        final CartesianPoint lastStep = this.currentLocation;
+        final CartesianPoint nextStep = new CartesianPoint(lastStep.getX(), lastStep.getY());
         final int choice = R.nextInt(4);
         switch (choice) {
             case 0:
