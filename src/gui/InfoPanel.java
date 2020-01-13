@@ -11,7 +11,7 @@ public class InfoPanel extends JPanel {
 
     InfoPanel(final Game game) {
         this.game = game;
-        final String[] petStrings = {"Slow", "Normal", "Fast"};
+        final String[] petStrings = {"Slow", "Normal", "Fast", "Ultra"};
         final JComboBox<String> speedPickList = new JComboBox<>(petStrings);
         speedPickList.setSelectedIndex(0);
         speedPickList.addActionListener(e -> {
@@ -27,6 +27,9 @@ public class InfoPanel extends JPanel {
                     break;
                 case "Fast" :
                     delay = 10;
+                    break;
+                case "Ultra" :
+                    delay = 0;
                     break;
                 default :
                     throw new RuntimeException("no!");
