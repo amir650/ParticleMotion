@@ -1,7 +1,12 @@
+package engine;
+
+import shared.Utils;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 public class CartesianPoint {
 
@@ -18,31 +23,30 @@ public class CartesianPoint {
 
     static CartesianPoint getPoint(final int x,
                                    final int y) {
-        final String key = x + "_" + y;
-        if (!POINTS_CACHE.containsKey(key)) {
-            throw new RuntimeException("Specified point doesn't exist in map");
-        } else {
-            return POINTS_CACHE.get(key);
-        }
+        return Optional.ofNullable(POINTS_CACHE.get(stringifyCoordinates(x, y)))
+                       .orElseThrow(() -> new IllegalArgumentException("Unsupported value: " +stringifyCoordinates(x, y)));
     }
 
     private static Map<String, CartesianPoint> initPointsCache() {
         final Map<String, CartesianPoint> pointsCache = new HashMap<>();
-        for(int i = 0; i < World.WIDTH; i++) {
-            for(int j = 0; j < World.HEIGHT; j++) {
-                pointsCache.put(i + "_" +j, new CartesianPoint(i, j));
+        for(int i = 0; i < Utils.WIDTH; i++) {
+            for(int j = 0; j < Utils.HEIGHT; j++) {
+                pointsCache.put(stringifyCoordinates(i, j), new CartesianPoint(i, j));
             }
         }
-        System.out.println("Points cache filled up, size = " +pointsCache.size());
         return Collections.unmodifiableMap(pointsCache);
     }
 
+    private static String stringifyCoordinates(final int x,
+                                               final int y) {
+        return x + "." + y;
+    }
 
-    int getX() {
+    public int getX() {
         return this.x;
     }
 
-    int getY() {
+    public int getY() {
         return this.y;
     }
 
@@ -52,7 +56,7 @@ public class CartesianPoint {
         if (o == null || getClass() != o.getClass()) return false;
         final CartesianPoint point = (CartesianPoint) o;
         return this.x == point.x &&
-                this.y == point.y;
+               this.y == point.y;
     }
 
     @Override
