@@ -1,35 +1,37 @@
 package gui;
 
+import engine.World;
+
 import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 
-public class Game extends JFrame {
+public class GameFrame extends JFrame {
 
-    private final World gameWorld;
+    private final WorldPanel worldPanel;
     private final InfoPanel infoPanel;
     private final Timer gameTimer;
 
-    public Game() {
-        this.gameWorld = new World();
+    private GameFrame() {
+        this.worldPanel = new WorldPanel(new World());
         this.infoPanel = new InfoPanel(this);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Random Walk");
         setResizable(false);
         add(this.infoPanel, BorderLayout.NORTH);
-        add(this.gameWorld, BorderLayout.CENTER);
+        add(this.worldPanel, BorderLayout.CENTER);
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
         this.gameTimer = new Timer(50, (ActionEvent e) -> {
-            this.gameWorld.update();
+            this.worldPanel.update();
             this.infoPanel.update();
         });
     }
 
     public static void initialize() {
         SwingUtilities.invokeLater(() -> {
-            final Game game = new Game();
+            final GameFrame game = new GameFrame();
             game.start();
         });
     }
@@ -47,7 +49,7 @@ public class Game extends JFrame {
     }
 
     World getGameWorld() {
-        return this.gameWorld;
+        return this.worldPanel.getWorld();
     }
 
 }

@@ -1,6 +1,7 @@
 package gui;
 
 import engine.RandomWalker;
+import engine.World;
 import shared.Utils;
 
 import javax.swing.JPanel;
@@ -9,32 +10,29 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.util.concurrent.atomic.AtomicInteger;
 
-public class World extends JPanel {
+public class WorldPanel extends JPanel {
 
-    private final AtomicInteger worldAge;
-    private final RandomWalker walker;
+    private final World world;
 
-    World() {
+    WorldPanel(final World world) {
+        this.world = world;
         setPreferredSize(new Dimension(Utils.WIDTH, Utils.HEIGHT));
         setBackground(Color.BLACK);
-        this.worldAge = new AtomicInteger(0);
-        this.walker = new RandomWalker(this, Utils.WALKER_SIZE, Utils.LEAVE_SNAIL_TRAIL);
     }
 
-    AtomicInteger getWorldAge() {
-        return this.worldAge;
+    World getWorld() {
+        return this.world;
     }
 
     void update() {
-        this.walker.step();
-        this.worldAge.incrementAndGet();
-        if(this.walker.leaveSnailTrail()) {
-            repaint(this.walker.getCurrentLocation().getX(),
-                    this.walker.getCurrentLocation().getY(),
-                    this.walker.getSize(),
-                    this.walker.getSize());
+        this.world.iterate();
+        final RandomWalker walker = this.world.getWalker();
+        if(walker.leaveSnailTrail()) {
+            repaint(walker.getCurrentLocation().getX(),
+                    walker.getCurrentLocation().getY(),
+                    walker.getSize(),
+                    walker.getSize());
         } else {
             repaint();
         }
@@ -44,13 +42,14 @@ public class World extends JPanel {
     public void paintComponent(final Graphics graphics) {
         super.paintComponent(graphics);
         final Graphics2D g = (Graphics2D) graphics;
+        final RandomWalker walker = this.world.getWalker();
         g.setColor(randomColor());
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g.fill3DRect(this.walker.getCurrentLocation().getX(),
-                     this.walker.getCurrentLocation().getY(),
-                     this.walker.getSize(),
-                     this.walker.getSize(),
-                true);
+        g.fill3DRect(walker.getCurrentLocation().getX(),
+                     walker.getCurrentLocation().getY(),
+                     walker.getSize(),
+                     walker.getSize(),
+             true);
     }
 
     private static Color randomColor() {

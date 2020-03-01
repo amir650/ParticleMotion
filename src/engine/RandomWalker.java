@@ -1,21 +1,17 @@
 package engine;
 
-import gui.World;
 import shared.Utils;
 
 public class RandomWalker {
 
     private final int size;
-    private final World gameWorld;
     private CartesianPoint currentLocation;
     private final boolean leaveSnailTrail;
 
-    public RandomWalker(final World gameWorld,
-                        final int size,
-                        final boolean leaveSnailTrail) {
+    RandomWalker(final int size,
+                 final boolean leaveSnailTrail) {
         this.currentLocation = CartesianPoint.getPoint(Utils.WIDTH / 2, Utils.HEIGHT / 2);
         this.size = size;
-        this.gameWorld = gameWorld;
         this.leaveSnailTrail = leaveSnailTrail;
     }
 
@@ -31,12 +27,12 @@ public class RandomWalker {
         return this.leaveSnailTrail;
     }
 
-    public void step() {
+    void step() {
         CartesianPoint nextStep = this.currentLocation;
         final int choice = Utils.R.nextInt(4);
         switch(choice) {
             case 0:
-                if (this.currentLocation.getX() + this.size < this.gameWorld.getWidth()) {
+                if (this.currentLocation.getX() + this.size < Utils.WIDTH) {
                     nextStep = CartesianPoint.getPoint(this.getCurrentLocation().getX() + this.size,
                             this.getCurrentLocation().getY());
                 }
@@ -48,7 +44,7 @@ public class RandomWalker {
                 }
                 break;
             case 2:
-                if (this.currentLocation.getY() + this.size < this.gameWorld.getHeight()) {
+                if (this.currentLocation.getY() + this.size < Utils.HEIGHT) {
                     nextStep = CartesianPoint.getPoint(this.getCurrentLocation().getX(),
                             this.getCurrentLocation().getY() + this.size);
                 }

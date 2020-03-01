@@ -1,7 +1,7 @@
-import gui.Game;
+import gui.GameFrame;
 
 public class Driver {
     public static void main(final String[] args) {
-        Game.initialize();
+        GameFrame.initialize();
     }
 }

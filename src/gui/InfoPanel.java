@@ -4,12 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.Objects;
 
 public class InfoPanel extends JPanel {
 
-    private final Game game;
+    private final GameFrame game;
 
-    InfoPanel(final Game game) {
+    InfoPanel(final GameFrame game) {
         this.game = game;
         final String[] petStrings = {"Slow", "Normal", "Fast", "Ultra"};
         final JComboBox<String> speedPickList = new JComboBox<>(petStrings);
@@ -18,7 +19,7 @@ public class InfoPanel extends JPanel {
             JComboBox cb = (JComboBox)e.getSource();
             String selectedSpeed = (String)cb.getSelectedItem();
             int delay;
-            switch(selectedSpeed) {
+            switch(Objects.requireNonNull(selectedSpeed)) {
                 case "Slow" :
                     delay = 50;
                     break;
