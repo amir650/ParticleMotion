@@ -21,8 +21,8 @@ public class CartesianPoint {
         this.y = y;
     }
 
-    public static CartesianPoint getPoint(final int x,
-                                          final int y) {
+    static CartesianPoint getPoint(final int x,
+                                   final int y) {
         return Optional.ofNullable(POINTS_CACHE.get(stringifyCoordinates(x, y)))
                        .orElseThrow(() -> new IllegalArgumentException("Unsupported value: " +stringifyCoordinates(x, y)));
     }

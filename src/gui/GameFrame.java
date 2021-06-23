@@ -16,7 +16,7 @@ public class GameFrame extends JFrame {
         this.worldPanel = new WorldPanel(new World());
         this.infoPanel = new InfoPanel(this);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Random Walk");
+        setTitle("Walker");
         setResizable(false);
         add(this.infoPanel, BorderLayout.NORTH);
         add(this.worldPanel, BorderLayout.CENTER);
@@ -30,10 +30,7 @@ public class GameFrame extends JFrame {
     }
 
     public static void initialize() {
-        SwingUtilities.invokeLater(() -> {
-            final GameFrame game = new GameFrame();
-            game.start();
-        });
+        SwingUtilities.invokeLater(() -> new GameFrame().start());
     }
 
     void setDelay(int delay) {
